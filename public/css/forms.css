@@ -1,0 +1,39 @@
+ .form-control {
+  margin: 1rem 0; 
+}
+
+.form-control label,
+.form-control input,
+.form-control textarea {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.25rem;
+}
+
+.form-control input,
+.form-control textarea {
+  border: 1px solid grey;
+  font: inherit;
+  border-radius: 5px;
+}
+
+.form-control input:focus, 
+.form-control textarea:focus {
+  outline-color: green;
+  background-color: whitesmoke
+}
+
+ 
+.button:active {
+  background-color: blue;
+ 
+}
+
+.button {
+  width: 100px;
+  height: 30px;
+  border-radius: 5px;
+  background-color:rgb(34, 72, 243);
+  color: white;
+  margin-left: 6rem;
+}  
