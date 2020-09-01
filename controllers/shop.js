@@ -15,15 +15,15 @@ exports.getProducts = (req, res, next) => {
 exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId;
 
-  /* debug async using cb */
-  Product.findById(prodId, (product) => {
+  Product.findById(prodId).then( ([product])  => {
     console.log(`Returning Product: ${JSON.stringify(product)}`);
     /* using templating engine */
     res.render("shop/product-details", {
-      product: product,
+      product: product[0],
       pageTitle: "Product Details",
       path: `/products/${product.id}`,
-    });
+    })
+    .catch((err) => console.log(err));
   });
 };
 
