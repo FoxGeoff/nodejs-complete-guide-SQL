@@ -2,6 +2,8 @@
 
 ## Kanban Task #10: SQL Introduction
 
+### Task: Basic SQL and Create Table
+
 ### Task: Connecting our App to the SQL Database
 
 - Run: `npm i mysql2 --save`
@@ -12,7 +14,7 @@
 // util/database.js
 const mysql = require('mysql2');
 
-const pool = mysql.createPool({ 
+const pool = mysql.createPool({
     host: 'localhost',
     user: 'test-user',
     database: 'node-complete',
@@ -36,6 +38,6 @@ db.execute("SELECT * FROM products")
   });
 ```
 
-### Task: Basic SQL and Create Table
+### Task: Fetching Products
 
 ## Kanban Task #11: SQL Introduction

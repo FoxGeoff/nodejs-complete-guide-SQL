@@ -27,15 +27,18 @@ exports.getProduct = (req, res, next) => {
   });
 };
 
+/* Using Promises */
 exports.getIndex = (req, res, next) => {
-  const products = Product.fetchAll((products) => {
-    /* using templating engine */
-    res.render("shop/index", {
-      prods: products,
-      pageTitle: "Shop",
-      path: "/",
-    });
-  });
+  Product.fetchAll()
+    .then(([rows, fieldData]) => {
+      /* using templating engine */
+      res.render("shop/index", {
+        prods: rows,
+        pageTitle: "Shop",
+        path: "/",
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.getCart = (req, res, next) => {
