@@ -94,4 +94,31 @@ exports.postAddProduct = (req, res, next) => {
 
 ### Task: Fetching a Single Product with the "where" Condition
 
+- model/product.js
+
+```JavaScript
+static findById(prodId) {
+    return Db.execute('SELECT * FROM products WHERE products.id = ?', [prodId]);
+  }
+```
+
+- controller/Shop.js
+
+```JavaScript
+exports.getProduct = (req, res, next) => {
+  const prodId = req.params.productId;
+
+  Product.findById(prodId).then( ([product])  => {
+    console.log(`Returning Product: ${JSON.stringify(product)}`);
+    /* using templating engine */
+    res.render("shop/product-details", {
+      product: product[0],
+      pageTitle: "Product Details",
+      path: `/products/${product.id}`,
+    });
+  })
+    .catch((err) => console.log(err));
+};
+```
+
 ## Kanban Task #11: SQL Introduction
