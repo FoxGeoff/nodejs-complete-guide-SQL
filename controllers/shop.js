@@ -1,11 +1,11 @@
-const Product = require("../models/product");
+ const Product = require("../models/product");
 const Cart = require("../models/cart");
 
 exports.getProducts = (req, res, next) => {
-  const products = Product.fetchAll((products) => {
+  Product.fetchAll().then(([rows,fieldData]) => {
     /* using templating engine */
     res.render("shop/products", {
-      prods: products,
+      prods: rows,
       pageTitle: "Products",
       path: "/products",
     });
