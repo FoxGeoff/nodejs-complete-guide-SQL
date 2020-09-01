@@ -22,9 +22,9 @@ exports.getProduct = (req, res, next) => {
       product: product[0],
       pageTitle: "Product Details",
       path: `/products/${product.id}`,
-    })
+    });
+  })
     .catch((err) => console.log(err));
-  });
 };
 
 /* Using Promises */
