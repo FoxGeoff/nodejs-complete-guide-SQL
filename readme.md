@@ -7,18 +7,18 @@
 ### Task: Connecting our App to the SQL Database
 
 - Run: `npm i mysql2 --save`
--online ref: <https://www.npmjs.com/package/mysql2>
+  -online ref: <https://www.npmjs.com/package/mysql2>
 
 ```javascript
 // Connecting to the sql database
 // util/database.js
-const mysql = require('mysql2');
+const mysql = require("mysql2");
 
 const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'test-user',
-    database: 'node-complete',
-    password: '123user!!!'
+  host: "localhost",
+  user: "test-user",
+  database: "node-complete",
+  password: "123user!!!",
 });
 
 module.exports = pool.promise();
@@ -57,5 +57,41 @@ exports.getIndex = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 ```
+
+### Task: Inserting Data into the Database
+
+- in model/product.js
+
+```JavaScript
+save() {
+    return Db.execute(
+      "INSERT INTO products(title, price, imageUrl, description)VALUES (?,?,?,?)",
+      [this.title, this.price, this.imageUrl, this.description]
+    );
+  }
+```
+
+- in controlles/admin.j
+
+```JavaScript
+exports.postAddProduct = (req, res, next) => {
+  /* DANGER: this data is shared across ALL node users :( */
+  const product = new Product(
+    (id = null),
+    req.body.title,
+    req.body.imageUrl,
+    req.body.description,
+    req.body.price
+  );
+  product
+    .save()
+    .then(() => {
+      res.redirect("/");
+    })
+    .catch((err) => console.log(err));
+};
+```
+
+### Task: Fetching a Single Product with the "where" Condition
 
 ## Kanban Task #11: SQL Introduction

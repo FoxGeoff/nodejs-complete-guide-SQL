@@ -13,14 +13,18 @@ exports.getAddProduct = (req, res, next) => {
 exports.postAddProduct = (req, res, next) => {
   /* DANGER: this data is shared across ALL node users :( */
   const product = new Product(
-    id = null,
+    (id = null),
     req.body.title,
     req.body.imageUrl,
     req.body.description,
     req.body.price
   );
-  product.save();
-  res.redirect("/");
+  product
+    .save()
+    .then(() => {
+      res.redirect("/");
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.getEditProduct = (req, res, next) => {
@@ -44,9 +48,9 @@ exports.getEditProduct = (req, res, next) => {
       product: product,
     });
   });
-}
- 
-exports.postDeleteProduct = (req, res, next) => { 
+};
+
+exports.postDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
   Product.deleteById(prodId);
   /* TODO: best practice here would bw a callback */
