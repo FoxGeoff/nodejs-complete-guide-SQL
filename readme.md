@@ -121,4 +121,12 @@ exports.getProduct = (req, res, next) => {
 };
 ```
 
-## Kanban Task #11: SQL Introduction
+## Kanban Task #11: Understanding Sequelize
+
+### Task: Introduction
+
+- Sequelize is an ORM Library (Object Mapping Library)
+
+### Task: Connecting to the Database
+
+-Run ```npm i sequelize --save```
