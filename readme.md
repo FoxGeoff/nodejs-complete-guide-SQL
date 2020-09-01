@@ -40,4 +40,22 @@ db.execute("SELECT * FROM products")
 
 ### Task: Fetching Products
 
+- controllers/shop.js
+
+```javascript
+/* Using Promises */
+exports.getIndex = (req, res, next) => {
+  Product.fetchAll()
+    .then(([rows, fieldData]) => {
+      /* using templating engine */
+      res.render("shop/index", {
+        prods: rows,
+        pageTitle: "Shop",
+        path: "/",
+      });
+    })
+    .catch((err) => console.log(err));
+};
+```
+
 ## Kanban Task #11: SQL Introduction
