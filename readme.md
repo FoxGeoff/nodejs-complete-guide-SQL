@@ -130,5 +130,23 @@ exports.getProduct = (req, res, next) => {
 ### Task: Connecting to the Database
 
 - 1) Drop the current database table - we will be using Sequelize
+- 2) Set up the Db connection pool
+
+```JavaScript
+/* This depends on 'mysql' */
+const Sequelize = require("sequelize");
+
+const sequelize = new Sequelize("node-complete", "test-user", "123user!!!", {
+  dialect: "mysql",
+  host: "localhost", // not required is default value
+});
+
+/* Database conection pool */
+module.exports = sequelize;
+```
+
+### Task: Defining a Model
+
+- model/product.js
 
 -Run ```npm i sequelize --save```
