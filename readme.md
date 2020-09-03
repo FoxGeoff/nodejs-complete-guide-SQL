@@ -127,6 +127,6 @@ exports.getProduct = (req, res, next) => {
 
 - Sequelize is an ORM Library (Object Mapping Library)
 
-### Task: Connecting to the Database
+### Task: Connecting to the Database.
 
 -Run ```npm i sequelize --save```
