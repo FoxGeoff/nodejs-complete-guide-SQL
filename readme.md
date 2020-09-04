@@ -147,6 +147,10 @@ module.exports = sequelize;
 
 ### Task: Defining a Model
 
+### Task: Syncing JS Definitions to the Database
+
+- vbvbvbvb
+
 - model/product.js
 
 -Run ```npm i sequelize --save```

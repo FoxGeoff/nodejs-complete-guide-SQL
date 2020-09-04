@@ -2,7 +2,7 @@ const http = require("http");
 const express = require("express");
 const bodyParser = require("body-parser");
 
-const db = require("./util/database");
+const sequelize = require("./util/database");
 
 const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
@@ -36,4 +36,12 @@ app.use("/", PageErrorController.getPageNotFound);
 
 const server = http.createServer(app);
 
-server.listen(3000);
+
+sequelize.sync().then( result => { 
+  console.log(result);
+  server.listen(3000);
+})
+.catch(err =>{
+  console.log(err);
+});
+
