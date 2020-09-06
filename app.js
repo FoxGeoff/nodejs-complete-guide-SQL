@@ -12,14 +12,15 @@ const app = express();
 
 const PageErrorController = require("./controllers/404");
 
-/* test run db query */
+/*
+//* test run db query 
 db.execute("SELECT * FROM products")
   .then((result) => {
     console.log(JSON.stringify(result[0]));
   })
   .catch((err) => {
     console.log(err);
-  });
+  }); */
 
 /* templating engine pug OR ejs */
 app.set("view engine", "ejs");
