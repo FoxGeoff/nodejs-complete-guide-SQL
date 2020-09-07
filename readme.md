@@ -151,6 +151,8 @@ module.exports = sequelize;
 
 ### Task: Inserting Data and Creating a Product
 
+### Task: Retrieving Data &amp; Finding Products
+
 - model/product.js
 
 -Run ```npm i sequelize --save```

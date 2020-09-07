@@ -12,23 +12,23 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.postAddProduct = (req, res, next) => {
   /* DANGER: this data is shared across ALL node users :( */
-  const product = new Product(
+  const product = new Product(                                                                                                                                                                                                                                                                                                                         
     (id = null),
     req.body.title,
     req.body.imageUrl,
     req.body.description,
     req.body.price
   );
-  product
+  Product
     .create({
-      title: title,
-      imageUrl: imageUrl,
-      description: description,
-      price: price,
+      title: product.title,
+      imageUrl: product.imageUrl,
+      description: product.description,
+      price: product.price,
     })
     .then((result) => {
-      // console.log(result);
-      console.log("Ceated a new Product");
+      console.log(result);
+      console.log("Created a new Product");
     })
     .catch((err) => {
       console.log(err);
