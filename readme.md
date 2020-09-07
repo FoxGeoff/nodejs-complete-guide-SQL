@@ -149,7 +149,7 @@ module.exports = sequelize;
 
 ### Task: Syncing JS Definitions to the Database
 
-- vbvbvbvbvbvbvbvbvvb
+### Task: Inserting Data and Creating a Product
 
 - model/product.js
 

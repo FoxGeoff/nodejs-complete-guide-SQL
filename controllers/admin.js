@@ -20,11 +20,19 @@ exports.postAddProduct = (req, res, next) => {
     req.body.price
   );
   product
-    .save()
-    .then(() => {
-      res.redirect("/");
+    .create({
+      title: title,
+      imageUrl: imageUrl,
+      description: description,
+      price: price,
     })
-    .catch((err) => console.log(err));
+    .then((result) => {
+      // console.log(result);
+      console.log("Ceated a new Product");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 exports.getEditProduct = (req, res, next) => {
