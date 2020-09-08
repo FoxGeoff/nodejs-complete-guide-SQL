@@ -19,6 +19,7 @@ exports.postAddProduct = (req, res, next) => {
     req.body.description,
     req.body.price
   );
+  console.log(product.title);
   Product
     .create({
       title: product.title,
