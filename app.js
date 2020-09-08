@@ -39,7 +39,7 @@ const server = http.createServer(app);
 
 
 sequelize.sync().then( result => { 
-  console.log(result);
+  // console.log(result);
   server.listen(3000);
 })
 .catch(err =>{

@@ -12,20 +12,18 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.postAddProduct = (req, res, next) => {
   /* DANGER: this data is shared across ALL node users :( */
-  const product = new Product(                                                                                                                                                                                                                                                                                                                         
-    (id = null),
-    req.body.title,
-    req.body.imageUrl,
-    req.body.description,
-    req.body.price
-  );
-  console.log(product.title);
+   
+    const title = req.body.title;
+    const imageUrl = req.body.imageUrl;
+    const description = req.body.description;
+    const price = req.body.price;
+  
   Product
     .create({
-      title: product.title,
-      imageUrl: product.imageUrl,
-      description: product.description,
-      price: product.price,
+      title: title,
+      imageUrl: imageUrl,
+      description: description,
+      price: price,
     })
     .then((result) => {
       console.log(result);
