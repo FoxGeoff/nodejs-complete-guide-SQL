@@ -12,19 +12,18 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.postAddProduct = (req, res, next) => {
   /* DANGER: this data is shared across ALL node users :( */
-   
-    const title = req.body.title;
-    const imageUrl = req.body.imageUrl;
-    const description = req.body.description;
-    const price = req.body.price;
-  
-  Product
-    .create({
-      title: title,
-      imageUrl: imageUrl,
-      description: description,
-      price: price,
-    })
+
+  const title = req.body.title;
+  const imageUrl = req.body.imageUrl;
+  const description = req.body.description;
+  const price = req.body.price;
+
+  Product.create({
+    title: title,
+    imageUrl: imageUrl,
+    description: description,
+    price: price,
+  })
     .then((result) => {
       console.log(result);
       console.log("Created a new Product");
@@ -81,8 +80,8 @@ exports.postEditProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-  const products = Product.fetchAll((products) => {
-    /* using templating engine */
+  Product.findAll().then((products) => {
+    /* Sequelize Using Promises */
     res.render("admin/products", {
       prods: products,
       pageTitle: "Product Administration",

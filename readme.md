@@ -238,3 +238,5 @@ exports.getProduct = (req, res, next) => {
     .then((product) => {
       console.log(`Returning Product: ${JSON.stringify(product)}`);
   ```
+
+### Task: Fetching Admin Products
