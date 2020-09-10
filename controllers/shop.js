@@ -17,12 +17,12 @@ exports.getProducts = (req, res, next) => {
 exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId;
 
-  Product.findById(prodId)
-    .then(([product]) => {
+  Product.findOne({ where: { id: prodId } })
+    .then((product) => {
       console.log(`Returning Product: ${JSON.stringify(product)}`);
-      /* using templating engine */
+      /* Sequelize using templating engine */
       res.render("shop/product-details", {
-        product: product[0],
+        product: product,
         pageTitle: "Product Details",
         path: `/products/${product.id}`,
       });

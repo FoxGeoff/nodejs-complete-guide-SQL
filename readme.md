@@ -201,3 +201,40 @@ exports.getProducts = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 ```
+
+### Task: Getting a Single Product with the "where" Condition
+
+```JavaScript
+exports.getProduct = (req, res, next) => {
+  const prodId = req.params.productId;
+  /* can return more than one product */
+  Product.findAll({ where: { id: prodId } })
+    .then(([product]) => {
+      console.log(`Returning Product: ${JSON.stringify(product)}`);
+      /* Sequelize using templating engine */
+      res.render("shop/product-details", {
+        product: product,
+        pageTitle: "Product Details",
+        path: `/products/${product.id}`,
+      });
+    })
+    .catch((err) => console.log(err));
+};
+```
+
+- To return just one product(two methods)
+
+```Javascript
+Product.findById(prodId).then(...).catch(...);
+```
+
+-OR
+
+```JavaScript
+exports.getProduct = (req, res, next) => {
+  const prodId = req.params.productId;
+
+  Product.findOne({ where: { id: prodId } })
+    .then((product) => {
+      console.log(`Returning Product: ${JSON.stringify(product)}`);
+  ```
