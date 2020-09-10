@@ -1,39 +1,42 @@
- const Product = require("../models/product");
+const Product = require("../models/product");
 const Cart = require("../models/cart");
 
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll().then(([rows,fieldData]) => {
-    /* using templating engine */
-    res.render("shop/products", {
-      prods: rows,
-      pageTitle: "Products",
-      path: "/products",
-    });
-  });
+  Product.findAll()
+    .then((products) => {
+      /* Sequelize Using Promises */
+      res.render("shop/products", {
+        prods: products,
+        pageTitle: "Products",
+        path: "/products",
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId;
 
-  Product.findById(prodId).then( ([product])  => {
-    console.log(`Returning Product: ${JSON.stringify(product)}`);
-    /* using templating engine */
-    res.render("shop/product-details", {
-      product: product[0],
-      pageTitle: "Product Details",
-      path: `/products/${product.id}`,
-    });
-  })
+  Product.findById(prodId)
+    .then(([product]) => {
+      console.log(`Returning Product: ${JSON.stringify(product)}`);
+      /* using templating engine */
+      res.render("shop/product-details", {
+        product: product[0],
+        pageTitle: "Product Details",
+        path: `/products/${product.id}`,
+      });
+    })
     .catch((err) => console.log(err));
 };
 
-/* Using Promises */
+/* Sequelize Using Promises */
 exports.getIndex = (req, res, next) => {
-  Product.fetchAll()
-    .then(([rows, fieldData]) => {
+  Product.findAll()
+    .then((products) => {
       /* using templating engine */
       res.render("shop/index", {
-        prods: rows,
+        prods: products,
         pageTitle: "Shop",
         path: "/",
       });

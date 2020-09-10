@@ -127,6 +127,8 @@ exports.getProduct = (req, res, next) => {
 
 - Sequelize is an ORM Library (Object Mapping Library)
 
+-Run ```npm i sequelize --save```
+
 ### Task: Connecting to the Database
 
 - 1) Drop the current database table - we will be using Sequelize
@@ -145,14 +147,57 @@ const sequelize = new Sequelize("node-complete", "test-user", "123user!!!", {
 module.exports = sequelize;
 ```
 
+- model/product.js
+
+```JavaScript
+const sequelize = require('../util/database');
+
+const Product = sequelize.define('product', {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    allowNull: false,
+    primaryKey: true
+  },
+  title: Sequelize.STRING,
+  price: {
+    type: Sequelize.DOUBLE,
+    allowNull: false
+  },
+  imageUrl: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  description: {
+    type: Sequelize.STRING,
+    allowNull: false
+  }
+});
+
+module.exports = Product;
+```
+
 ### Task: Defining a Model
 
 ### Task: Syncing JS Definitions to the Database
 
 ### Task: Inserting Data and Creating a Product
 
-### Task: Retrieving Data &amp; Finding Products
+### Task: Retrieving Data & Finding Products
 
-- model/product.js
+- For the Products Page
 
--Run ```npm i sequelize --save```
+```Javascript
+exports.getProducts = (req, res, next) => {
+  Product.findAll()
+    .then((products) => {
+      /* Sequelize Using Promises */
+      res.render("shop/products", {
+        prods: products,
+        pageTitle: "Products",
+        path: "/products",
+      });
+    })
+    .catch((err) => console.log(err));
+};
+```
