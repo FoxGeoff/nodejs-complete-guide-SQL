@@ -41,19 +41,20 @@ exports.getEditProduct = (req, res, next) => {
   }
 
   const prodId = req.params.productId;
-  Product.findById(prodId, (product) => {
-    if (!product) {
-      /* TODO: Add `Error: Product Id: ${prodId} not found` */
-      return res.redirect("/");
-    }
-
-    res.render("admin/edit-product", {
-      pageTitle: "Edit Product",
-      path: "/admin/edit-product",
-      editing: editMode,
-      product: product,
-    });
-  });
+  Product.findByPk(prodId)
+    .then((product) => {
+      if (!product) {
+        /* TODO: Add `Error: Product Id: ${prodId} not found` */
+        return res.redirect("/");
+      }
+      res.render("admin/edit-product", {
+        pageTitle: "Edit Product",
+        path: "/admin/edit-product",
+        editing: editMode,
+        product: product,
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.postDeleteProduct = (req, res, next) => {
@@ -64,17 +65,24 @@ exports.postDeleteProduct = (req, res, next) => {
 };
 
 exports.postEditProduct = (req, res, next) => {
-  const updatedProduct = new Product(
-    (id = req.body.productId),
-    req.body.title,
-    req.body.imageUrl,
-    req.body.description,
-    req.body.price
-  );
+  const prodId = req.body.productId;
+  const updatedTitle = req.body.title;
+  const updatedImageUrl = req.body.imageUrl;
+  const updatedDescription = req.body.description;
+  const updatedPrice = req.body.price;
 
-  console.log(JSON.stringify(updatedProduct));
+  Product.findByPk(prodId).then( product => {
+    product.id = prodId;
+    product.title = updatedTitle;
+    product.imageUrl = updatedImageUrl;
+    product.description = updatedDescription;
+    product.price = updatedPrice;
 
-  updatedProduct.save();
+    console.log(JSON.stringify(product));
+
+    product.save();
+  });
+
   /* TODO: best practice here would bw a callback */
   res.redirect("/admin/products");
 };

@@ -240,3 +240,9 @@ exports.getProduct = (req, res, next) => {
   ```
 
 ### Task: Fetching Admin Products
+
+### Task: Updating Products
+
+- controller/admin/getEditProduct.js
+
+- online reference: <https://sequelize.org/master/manual/model-querying-finders.html>. **findById() is replaced by findByPk()**
