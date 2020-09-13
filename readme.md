@@ -311,3 +311,26 @@ exports.postEditProduct = (req, res, next) => {
 and the use of ```.then( result => {...```
 
 ensures that the save completes before the ```.then(res.redirect("/admin/products");)```
+
+### Task: Deleting Products
+
+- controllers/admin.js
+
+```JavaScript
+exports.postDeleteProduct = (req, res, next) => {
+  const prodId = req.body.productId;
+  Product.findByPk(prodId)
+    .then((product) => {
+      return product.destroy();
+    })
+    .then((result) => {
+      console.log("Delete product");
+      res.redirect("/admin/products");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+```
+
+### Task: Creating a User Model
