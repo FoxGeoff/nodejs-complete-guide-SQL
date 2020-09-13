@@ -246,3 +246,62 @@ exports.getProduct = (req, res, next) => {
 - controller/admin/getEditProduct.js
 
 - online reference: <https://sequelize.org/master/manual/model-querying-finders.html>. **findById() is replaced by findByPk()**
+
+- GET
+
+```JavaScript
+exports.getEditProduct = (req, res, next) => {
+  const editMode = req.query.edit; // string 'true'
+
+  if (!editMode) {
+    return res.redirect("/");
+  }
+
+  const prodId = req.params.productId;
+  Product.findByPk(prodId)
+    .then((product) => {
+      if (!product) {
+        /* TODO: Add `Error: Product Id: ${prodId} not found` */
+        return res.redirect("/");
+      }
+      res.render("admin/edit-product", {
+        pageTitle: "Edit Product",
+        path: "/admin/edit-product",
+        editing: editMode,
+        product: product,
+      });
+    })
+    .catch((err) => console.log(err));
+};
+```
+
+- POST
+
+```JavaScript
+exports.postEditProduct = (req, res, next) => {
+  const prodId = req.body.productId;
+  const updatedTitle = req.body.title;
+  const updatedImageUrl = req.body.imageUrl;
+  const updatedDescription = req.body.description;
+  const updatedPrice = req.body.price;
+
+  Product.findByPk(prodId)
+    .then((product) => {
+      product.id = prodId;
+      product.title = updatedTitle;
+      product.imageUrl = updatedImageUrl;
+      product.description = updatedDescription;
+      product.price = updatedPrice;
+
+      console.log(JSON.stringify(product));
+      /* use return fire promise */
+      return product.save();
+    })
+    /* use then to wait for promise to finish */
+    .then( result => {
+      console.log('Updated Product');
+      res.redirect("/admin/products");
+    })
+    .catch((err) => console.log(err));
+};
+```

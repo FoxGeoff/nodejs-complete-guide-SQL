@@ -70,21 +70,25 @@ exports.postEditProduct = (req, res, next) => {
   const updatedImageUrl = req.body.imageUrl;
   const updatedDescription = req.body.description;
   const updatedPrice = req.body.price;
+  /* first promise */
+  Product.findByPk(prodId)
+    .then((product) => {
+      product.id = prodId;
+      product.title = updatedTitle;
+      product.imageUrl = updatedImageUrl;
+      product.description = updatedDescription;
+      product.price = updatedPrice;
 
-  Product.findByPk(prodId).then( product => {
-    product.id = prodId;
-    product.title = updatedTitle;
-    product.imageUrl = updatedImageUrl;
-    product.description = updatedDescription;
-    product.price = updatedPrice;
-
-    console.log(JSON.stringify(product));
-
-    product.save();
-  });
-
-  /* TODO: best practice here would bw a callback */
-  res.redirect("/admin/products");
+      console.log(JSON.stringify(product));
+      /* use return fire #2 promise before .then()*/
+      return product.save();
+    })
+    /* use then to wait for promise to finish */
+    .then((result) => {
+      console.log("Updated Product");
+      res.redirect("/admin/products");
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.getProducts = (req, res, next) => {
