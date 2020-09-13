@@ -305,3 +305,9 @@ exports.postEditProduct = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 ```
+
+- NOTE: the use of ```return product.save();```
+
+and the use of ```.then( result => {...```
+
+ensures that the save completes before the ```.then(res.redirect("/admin/products");)```
