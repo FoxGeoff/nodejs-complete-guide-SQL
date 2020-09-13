@@ -3,6 +3,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 const sequelize = require("./util/database");
+const Product = require("./models/product");
+const User = require("./models/user");
 
 const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
@@ -37,12 +39,17 @@ app.use("/", PageErrorController.getPageNotFound);
 
 const server = http.createServer(app);
 
+/* Sequelize Relations */
+Product.belongsTo(User, { constrains: true, onDelete: "CASCADE" });
+/* Optional Relation */
+// User.HasMany(Product); //this function is no longer used
 
-sequelize.sync().then( result => { 
-  // console.log(result);
-  server.listen(3000);
-})
-.catch(err =>{
-  console.log(err);
-});
-
+sequelize
+  .sync({ force: true }) // Not for productution { force: true }
+  .then((result) => {
+    // console.log(result);
+    server.listen(3000);
+  })
+  .catch((err) => {
+    console.log(err);
+  });

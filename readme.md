@@ -334,3 +334,24 @@ exports.postDeleteProduct = (req, res, next) => {
 ```
 
 ### Task: Creating a User Model
+
+### Task: Adding a One-To-Many Relationship
+
+- app.js
+
+```Javascript
+/* Sequelize Relations */
+Product.belongsTo(User, { constrains: true, onDelete: "CASCADE" });
+/* Optional Relation */
+// User.HasMany(Product); //this function is no longer used
+
+sequelize
+  .sync({ force: true }) // Not for productution { force: true }
+  .then((result) => {
+    // console.log(result);
+    server.listen(3000);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+```
