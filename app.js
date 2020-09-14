@@ -13,6 +13,7 @@ const path = require("path");
 const app = express();
 
 const PageErrorController = require("./controllers/404");
+const { ESTALE } = require("constants");
 
 /*
 //* test run db query 
@@ -31,6 +32,15 @@ app.set("views", "views");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
+/* ONLY register NOT run middle ware */
+app.use((req, res, next) => { 
+  User.findByPk(1)
+  .then( (user) => { 
+    req.user = user; // this a Sequalizer object
+    next();
+  }).catch(err => console.log(err));
+});
+
 app.use("/admin", adminRoutes); // not calling as func adminRoutes()
 app.use("/", shopRoutes);
 
@@ -44,10 +54,21 @@ Product.belongsTo(User, { constrains: true, onDelete: "CASCADE" });
 /* Optional Relation */
 // User.HasMany(Product); //this function is no longer used
 
+// For non-productution: .sync({ force: true })
 sequelize
-  .sync({ force: true }) // Not for productution { force: true }
+  .sync()
   .then((result) => {
+    return User.findByPk(1);
     // console.log(result);
+  })
+  .then((user) => {
+    if (!user) {
+      return User.create({ name: "Geoff", email: "test@test.com" });
+    }
+    return Promise.resolve(user); // return user will default to apromise too
+  })
+  .then((user) => {
+    // console.log(user);
     server.listen(3000);
   })
   .catch((err) => {

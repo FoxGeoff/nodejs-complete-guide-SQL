@@ -346,7 +346,7 @@ Product.belongsTo(User, { constrains: true, onDelete: "CASCADE" });
 // User.HasMany(Product); //this function is no longer used
 
 sequelize
-  .sync({ force: true }) // Not for productution { force: true }
+  .sync() // For non-productution: .sync({ force: true })
   .then((result) => {
     // console.log(result);
     server.listen(3000);
@@ -354,4 +354,17 @@ sequelize
   .catch((err) => {
     console.log(err);
   });
+```
+
+### Task: Creating & Managing a Dummy User
+
+```JavaScript
+//* ONLY register NOT run middle ware */
+app.use((req, res, next) => {
+  User.findByPk(1)
+  .then( (user) => {
+    req.user = user;
+    .next();
+  }).catch(err => console.log(err));
+});
 ```

@@ -10,10 +10,6 @@ const User = sequelize.define("User", {
     primaryKey: true,
   },
   name: Sequelize.STRING,
-  price: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
   email: {
     type: Sequelize.STRING,
     allowNull: false,
