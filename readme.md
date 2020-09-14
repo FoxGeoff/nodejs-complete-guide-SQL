@@ -439,3 +439,66 @@ exports.getProducts = (req, res, next) => {
     });
   });
 };
+```
+
+### Task: One-To-Many &amp; Many-To-Many Relations
+
+- model/cart.js
+
+```javascript
+const Sequelize = require('sequelize');
+
+const sequelize = require('../util/database');
+
+const Cart = sequelize.define('cart', {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    allowNull: false,
+    primaryKey: true
+  }
+});
+
+module.exports = Cart;
+```
+
+-model/cart-item.js
+
+```javascript
+const Sequelize = require('sequelize');
+
+const sequelize = require('../util/database');
+
+const CartItem = sequelize.define('cartItem', {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    allowNull: false,
+    primaryKey: true
+  },
+  qty: Sequelize.INTEGER
+});
+
+module.exports = CartItem;
+```
+
+- app.js Add associations
+
+```javascript
+...
+/* ***Sequelize Relations*** */
+
+/* One to many */
+Product.belongsTo(User, { constrains: true, onDelete: 'CASCADE' });
+/* required Relation for req.user.getProducts() to work */
+User.hasMany(Product);
+
+/* One to one */
+User.hasOne(Cart);
+Cart.belongsTo(User);
+
+/* Many to many */
+Cart.belongsToMany(Product, { through: CartItem} );
+Product.belongsToMany(Cart, { through: CartItem} );
+...
+```
