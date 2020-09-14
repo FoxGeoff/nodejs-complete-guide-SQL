@@ -370,3 +370,28 @@ app.use((req, res, next) => {
 ```
 
 ### Task: Using Magic Association Methods
+
+- Sequelize method: ```req.user.createProduct();```
+
+- Manual Method: userId is a Sequelize Obj
+
+```JavaScript
+  Product.create({
+    title: title,
+    imageUrl: imageUrl,
+    description: description,
+    price: price,
+    UserId: req.user.id // only in Db. sequelize obj
+  })
+  ```
+
+- Sequelize Magic association Method:
+
+  ```JavaScript
+  req.user.createProduct({
+      title: title,
+      imageUrl: imageUrl,
+      description: description,
+      price: price,
+  })
+  ```

@@ -18,7 +18,16 @@ exports.postAddProduct = (req, res, next) => {
   const description = req.body.description;
   const price = req.body.price;
 
-  // userId is a Sequelize Obj
+  // sequelize Magic association Method:
+  /*
+  req.user.createProduct({
+      title: title,
+      imageUrl: imageUrl,
+      description: description,
+      price: price,
+  }) */
+
+  //Manual Method: userId is a Sequelize Obj
   Product.create({
     title: title,
     imageUrl: imageUrl,
