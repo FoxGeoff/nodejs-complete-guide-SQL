@@ -15,16 +15,6 @@ const app = express();
 const PageErrorController = require("./controllers/404");
 const { ESTALE } = require("constants");
 
-/*
-//* test run db query 
-db.execute("SELECT * FROM products")
-  .then((result) => {
-    console.log(JSON.stringify(result[0]));
-  })
-  .catch((err) => {
-    console.log(err);
-  }); */
-
 /* templating engine pug OR ejs */
 app.set("view engine", "ejs");
 app.set("views", "views");
@@ -33,12 +23,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
 /* ONLY register NOT run middle ware */
-app.use((req, res, next) => { 
+app.use((req, res, next) => {
   User.findByPk(1)
-  .then( (user) => { 
-    req.user = user; // this a Sequalizer object
-    next();
-  }).catch(err => console.log(err));
+    .then((user) => {
+      /* sequelize object */
+      req.user = user;
+      /* debug code */
+      const msg = JSON.stringify(user);
+      next(console.log(`User (middleware): ${msg}`));
+
+    })
+    .catch((err) => console.log(err));
 });
 
 app.use("/admin", adminRoutes); // not calling as func adminRoutes()
@@ -54,21 +49,22 @@ Product.belongsTo(User, { constrains: true, onDelete: "CASCADE" });
 /* Optional Relation */
 // User.HasMany(Product); //this function is no longer used
 
-// For non-productution: .sync({ force: true })
+// For non-productution use: .sync({ force: true })
 sequelize
   .sync()
   .then((result) => {
     return User.findByPk(1);
-    // console.log(result);
   })
   .then((user) => {
     if (!user) {
       return User.create({ name: "Geoff", email: "test@test.com" });
     }
-    return Promise.resolve(user); // return user will default to apromise too
+    return Promise.resolve(user); // return user will default to a promise too
   })
   .then((user) => {
-    // console.log(user);
+    /* debug code */
+    console.log(`User : ${JSON.stringify(user)}`);
+
     server.listen(3000);
   })
   .catch((err) => {

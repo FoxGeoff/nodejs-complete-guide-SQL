@@ -368,3 +368,5 @@ app.use((req, res, next) => {
   }).catch(err => console.log(err));
 });
 ```
+
+### Task: Using Magic Association Methods
