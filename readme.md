@@ -395,3 +395,32 @@ app.use((req, res, next) => {
       price: price,
   })
   ```
+
+### Task: Fetching Related Products
+
+- Get user products
+
+```javascript
+exports.getEditProduct = (req, res, next) => {
+  const editMode = req.query.edit; // string 'true'
+
+  if (!editMode) {
+    return res.redirect("/");
+  }
+
+  const prodId = req.params.productId;
+  req.user
+    .getProducts({ where: { id: prodId } }) //sequelizer
+    // Product.findByPk(prodId)
+    .then((product) => {
+      const product = products[0] //new because we have an array of one
+```
+
+- NOTE we need both association for .getProducts()
+
+```javascript
+/* Sequelize Relations */
+Product.belongsTo(User, { constrains: true, onDelete: "CASCADE" });
+/* required Relation for req.user.getProducts() to work */
+User.hasMany(Product);
+```

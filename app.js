@@ -46,10 +46,10 @@ const server = http.createServer(app);
 
 /* Sequelize Relations */
 Product.belongsTo(User, { constrains: true, onDelete: "CASCADE" });
-/* Optional Relation */
-// User.HasMany(Product); //this function is no longer used
+/* required Relation for req.user.getProducts() to work */
+User.hasMany(Product); 
 
-// For non-productution use: .sync({ force: true })
+// For non-productution use:  .sync({ force: true })
 sequelize
   .sync()
   .then((result) => {

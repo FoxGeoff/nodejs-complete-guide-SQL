@@ -33,7 +33,7 @@ exports.postAddProduct = (req, res, next) => {
     imageUrl: imageUrl,
     description: description,
     price: price,
-    UserId: req.user.id // only in Db. sequelize obj
+    UserId: req.user.id, // only in Db. sequelize obj
   })
     .then((result) => {
       console.log(result);
@@ -53,8 +53,11 @@ exports.getEditProduct = (req, res, next) => {
   }
 
   const prodId = req.params.productId;
-  Product.findByPk(prodId)
-    .then((product) => {
+  req.user
+    .getProducts({ where: { id: prodId } })
+    // Product.findByPk(prodId)
+    .then((products) => {
+      const product = products[0];
       if (!product) {
         /* TODO: Add `Error: Product Id: ${prodId} not found` */
         return res.redirect("/");
