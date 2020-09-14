@@ -424,3 +424,18 @@ Product.belongsTo(User, { constrains: true, onDelete: "CASCADE" });
 /* required Relation for req.user.getProducts() to work */
 User.hasMany(Product);
 ```
+
+- Replace ```Product.findAll()``` with ```req.user.getProducts()```
+
+```javascript
+exports.getProducts = (req, res, next) => {
+  req.user.getProducts()
+ .then((products) => {
+    /* Sequelize Using Promises */
+    res.render("admin/products", {
+      prods: products,
+      pageTitle: "Product Administration",
+      path: "/admin/products",
+    });
+  });
+};

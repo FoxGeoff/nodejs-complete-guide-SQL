@@ -115,7 +115,7 @@ exports.postEditProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-  Product.findAll().then((products) => {
+  req.user.getProducts().then((products) => {
     /* Sequelize Using Promises */
     res.render("admin/products", {
       prods: products,
