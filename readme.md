@@ -502,3 +502,62 @@ Cart.belongsToMany(Product, { through: CartItem} );
 Product.belongsToMany(Cart, { through: CartItem} );
 ...
 ```
+
+### Task: Creating & Fetching a Cart
+
+- hint use console.log(result) to debug
+
+```javascript
+exports.getCart = (req, res, next) => {
+req.user.getCart().then().catch();
+```
+
+- We also need to create a cart for the user at startup
+
+```javascript
+//app.js
+...
+.then((user) => {
+    if (!user) {
+      return User.create({ name: 'Geoff', email: 'test@test.com' });
+    }
+    return Promise.resolve(user); // return user will default to a promise too
+  })
+  .then((user) => {
+    /* debug code */
+    console.log(`User : ${JSON.stringify(user)}`);
+    return user.createCart(); // <==
+})
+  .then((cart) =>{
+    server.listen(3000);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+```
+
+- controller/admin.js
+
+```javascript
+exports.getCart = (req, res, next) => {
+  req.user.getCart().then((cart) => {
+    console.log(cart);
+    return cart
+      .getProducts()
+      .then((products) => {
+        //* using templating engine
+        res.render("shop/cart", {
+          products: products,
+          pageTitle: "Shopping Cart",
+          path: "/cart",
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+};
+```
